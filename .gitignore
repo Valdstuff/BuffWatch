@@ -1,0 +1,13 @@
+# WoW saved variables (not part of the addon source)
+SavedVariables/
+*.lua.bak
+*.bak
+
+# Archives
+*.zip
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~

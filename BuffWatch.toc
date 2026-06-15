@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: BuffWatch
+## Notes: Tracks self-buffs and weapon enchants. Missing buffs glow; applied buffs dim. Click to cast. Use /bw config to configure.
+## Author: Valdstein
+## Version: 2.8
+## SavedVariables: BuffWatchDB
+
+BuffWatch.lua
