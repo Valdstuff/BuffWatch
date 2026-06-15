@@ -41,7 +41,6 @@ BuffWatch shows a compact row (or column) of icons for the buffs your class can 
 | --- | --- |
 | `/bw` or `/buffwatch` | Show / hide the BuffWatch frame |
 | `/bw config` | Open the configuration panel (lock, scale, opacity, orientation) |
-| `/bw debug` | Print weapon-enchant tooltip diagnostics to chat |
 
 Drag the frame to move it (when unlocked). Settings are saved per account in `BuffWatchDB`.
 
