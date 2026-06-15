@@ -11,3 +11,6 @@ SavedVariables/
 Thumbs.db
 *.swp
 *~
+
+# Screenshots are embedded in the README via GitHub CDN, not committed
+Screenshots/

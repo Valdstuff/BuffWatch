@@ -18,15 +18,15 @@ BuffWatch shows a compact row (or column) of icons for the buffs your class can 
 
 **Buffs needed** — missing buffs glow:
 
-![Buffs needed](Screenshots/BWNeeded.png)
+![Buffs needed](https://github.com/user-attachments/assets/07256b21-70c6-447d-948e-bc8af0201c44)
 
 **Buffs applied** — active buffs dim with timers:
 
-![Buffs applied](Screenshots/BWApplied.png)
+![Buffs applied](https://github.com/user-attachments/assets/7c6ae75c-08be-496b-94ff-7e2ff5458757)
 
 **Config panel:**
 
-![Config](Screenshots/BWConfig.png)
+![Config](https://github.com/user-attachments/assets/a174a0eb-df34-4305-a189-2c2115b1d2f1)
 
 ## Installation
 
