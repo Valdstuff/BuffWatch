@@ -698,19 +698,6 @@ SlashCmdList["BUFFWATCH"] = function(msg)
     local m = (msg or ""):lower():match("^%s*(.-)%s*$")
     if m == "config" then
         OpenConfig()
-    elseif m == "debug" then
-        local hasM, _, _, hasO = GetWeaponEnchantInfo()
-        local t16, item16, n16 = ReadEnchantText(16)
-        local t17, item17, n17 = ReadEnchantText(17)
-        DEFAULT_CHAT_FRAME:AddMessage("|cffffd100BuffWatch debug|r")
-        DEFAULT_CHAT_FRAME:AddMessage("  GetWeaponEnchantInfo main=" ..
-            tostring(hasM) .. " off=" .. tostring(hasO))
-        DEFAULT_CHAT_FRAME:AddMessage("  main-hand: hasItem=" .. tostring(item16) ..
-            " lines=" .. tostring(n16))
-        DEFAULT_CHAT_FRAME:AddMessage("    " .. (t16:gsub("\n", " | ")))
-        DEFAULT_CHAT_FRAME:AddMessage("  off-hand: hasItem=" .. tostring(item17) ..
-            " lines=" .. tostring(n17))
-        DEFAULT_CHAT_FRAME:AddMessage("    " .. (t17:gsub("\n", " | ")))
     else
         EnsureDB()
         if mainFrame:IsShown() then
