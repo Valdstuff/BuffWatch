@@ -46,7 +46,7 @@ Drag the frame to move it (when unlocked). Settings are saved per account in `Bu
 
 ## Author
 
-Valdstein
+Valdstein - AI was used in the creation of this addon
 
 ## License
 
