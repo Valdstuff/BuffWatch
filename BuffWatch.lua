@@ -8,51 +8,77 @@ local ICON_PAD  = 3
 local BG_PAD    = 5
 
 local TRACKED = {
-    { spell = "Power Word: Fortitude" },
-    { spell = "Power Word: Shield"    },
-    { spell = "Inner Fire"            },
-    { spell = "Demon Skin", upgradedBy = "Demon Armor" },
-    { spell = "Demon Armor"           },
-    { spell = "Fel Armor"             },
-    { spell = "Frost Armor", upgradedBy = "Ice Armor" },
-    { spell = "Ice Armor"             },
-    { spell = "Mage Armor"            },
-    { spell = "Molten Armor"          },
-    { spell = "Water Shield"          },
-    { spell = "Lightning Shield"      },
-    { spell = "Mark of the Wild"      },
-    { spell = "Thorns"                },
-    { spell = "Devotion Aura"         },
-    { spell = "Righteous Fury"        },
-    { spell = "Blessing of Might"     },
-    { spell = "Blessing of Kings"     },
-    { spell = "Blessing of Wisdom"    },
-    { spell = "Seal of Righteousness", group = "seal" },
-    { spell = "Seal of Wisdom",        group = "seal" },
-    { spell = "Seal of Light",         group = "seal" },
-    { spell = "Seal of Justice",       group = "seal" },
-    { spell = "Seal of Command",       group = "seal" },
-    { spell = "Seal of Vengeance",     group = "seal" },
-    { spell = "Seal of Corruption",    group = "seal" },
-    { spell = "Seal of the Martyr",    group = "seal" },
-    { spell = "Blood Presence",  group = "presence" },
-    { spell = "Frost Presence",  group = "presence" },
-    { spell = "Unholy Presence", group = "presence" },
-    { spell = "Windfury Weapon",     weapon = true },
-    { spell = "Frostbrand Weapon",   weapon = true },
-    { spell = "Flametongue Weapon",  weapon = true },
-    { spell = "Rockbiter Weapon",    weapon = true },
-    { spell = "Instant Poison",      weapon = true, prefix = true },
-    { spell = "Deadly Poison",       weapon = true, prefix = true },
-    { spell = "Crippling Poison",    weapon = true, prefix = true },
-    { spell = "Mind-numbing Poison", weapon = true, prefix = true },
+    { spell = "Power Word: Fortitude", id = 1243, class = "Priest" },
+    { spell = "Power Word: Shield", id = 17,    class = "Priest" },
+    { spell = "Inner Fire", id = 588,            class = "Priest" },
+    { spell = "Demon Skin", id = 687, upgradedBy = "Demon Armor", class = "Warlock" },
+    { spell = "Demon Armor", id = 706,           class = "Warlock" },
+    { spell = "Fel Armor", id = 28176,             class = "Warlock" },
+    { spell = "Frost Armor", id = 168, upgradedBy = "Ice Armor", class = "Mage" },
+    { spell = "Ice Armor", id = 7302,             class = "Mage" },
+    { spell = "Mage Armor", id = 6117,            class = "Mage" },
+    { spell = "Molten Armor", id = 30482,          class = "Mage" },
+    { spell = "Water Shield", id = 24398,          class = "Shaman" },
+    { spell = "Lightning Shield", id = 324,      class = "Shaman" },
+    { spell = "Mark of the Wild", id = 1126,      class = "Druid" },
+    { spell = "Thorns", id = 467,                class = "Druid" },
+    { spell = "Aspect of the Hawk",       id = 13165, group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Dragonhawk", id = 61846, group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Monkey",     id = 13163, group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Cheetah",    id = 5118,  group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Pack",       id = 13159, group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Beast",      id = 13161, group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Wild",       id = 20043, group = "aspect", class = "Hunter" },
+    { spell = "Aspect of the Viper",      id = 34074, group = "aspect", class = "Hunter" },
+    { spell = "Devotion Aura", id = 465,         class = "Paladin" },
+    { spell = "Righteous Fury", id = 25780,        class = "Paladin" },
+    { spell = "Blessing of Might", id = 19740,     class = "Paladin" },
+    { spell = "Blessing of Kings", id = 20217,     class = "Paladin" },
+    { spell = "Blessing of Wisdom", id = 19742,    class = "Paladin" },
+    { spell = "Seal of Righteousness", id = 21084, group = "seal", class = "Paladin" },
+    { spell = "Seal of Wisdom", id = 20166,        group = "seal", class = "Paladin" },
+    { spell = "Seal of Light", id = 20165,         group = "seal", class = "Paladin" },
+    { spell = "Seal of Justice", id = 20164,       group = "seal", class = "Paladin" },
+    { spell = "Seal of Command", id = 20375,       group = "seal", class = "Paladin" },
+    { spell = "Seal of Vengeance",  id = 31801, group = "seal", class = "Paladin", toggleKey = "seal_vc", toggleLabel = "Seal of Vengeance / Corruption" },
+    { spell = "Seal of Corruption", id = 53736, group = "seal", class = "Paladin", toggleKey = "seal_vc", toggleLabel = "Seal of Vengeance / Corruption" },
+    { spell = "Seal of the Martyr", id = 53720, group = "seal", class = "Paladin", toggleKey = "seal_mb", toggleLabel = "Seal of the Martyr / Blood" },
+    { spell = "Seal of Blood",      id = 31892, group = "seal", class = "Paladin", toggleKey = "seal_mb", toggleLabel = "Seal of the Martyr / Blood" },
+    { spell = "Blood Presence", id = 48263,  group = "presence", class = "Death Knight" },
+    { spell = "Frost Presence", id = 48266,  group = "presence", class = "Death Knight" },
+    { spell = "Unholy Presence", id = 48265, group = "presence", class = "Death Knight" },
+    { spell = "Windfury Weapon", id = 8232,     weapon = true, class = "Shaman" },
+    { spell = "Frostbrand Weapon", id = 8033,   weapon = true, class = "Shaman" },
+    { spell = "Flametongue Weapon", id = 8024,  weapon = true, class = "Shaman" },
+    { spell = "Rockbiter Weapon", id = 8017,    weapon = true, class = "Shaman" },
+    { spell = "Instant Poison", id = 8679,      weapon = true, prefix = true, class = "Rogue" },
+    { spell = "Deadly Poison", id = 2823,       weapon = true, prefix = true, class = "Rogue" },
+    { spell = "Crippling Poison", id = 3408,    weapon = true, prefix = true, class = "Rogue" },
+    { spell = "Mind-numbing Poison", id = 5761, weapon = true, prefix = true, class = "Rogue" },
 }
+
+-- Classes listed alphabetically in the config sidebar.
+local CLASS_ORDER = {
+    "Death Knight", "Druid", "Hunter", "Mage", "Paladin",
+    "Priest", "Rogue", "Shaman", "Warlock",
+}
+
+-- Classes temporarily hidden from the bar and the config sidebar. The
+-- data and code stay intact; clear an entry to re-enable it.
+local DISABLED_CLASSES = { ["Rogue"] = true }
+
+-- class name -> ordered list of its TRACKED entries (built after the loop below).
+local CLASS_BUFFS = {}
 
 for _, t in ipairs(TRACKED) do
     if not t.buff then t.buff = t.spell end
     -- Weapon tooltips read "Windfury", not "Windfury Weapon".
     if t.weapon and not t.match then
         t.match = (t.spell:gsub(" Weapon$", "")):lower()
+    end
+    if t.class then
+        CLASS_BUFFS[t.class] = CLASS_BUFFS[t.class] or {}
+        CLASS_BUFFS[t.class][#CLASS_BUFFS[t.class] + 1] = t
     end
 end
 
@@ -61,6 +87,7 @@ local knownSlot   = {}
 local activeBuffs = {}
 local visButtons  = {}
 local allButtons  = {}
+local playerClass        -- englishClass token, e.g. "ROGUE"; set in RebuildKnownSpells
 
 local weaponEnchant = { main = "", off = "" }
 local haveWeaponEntries = false
@@ -74,11 +101,14 @@ local function EnsureDB()
     for k, v in pairs(DB_DEFAULTS) do
         if type(BuffWatchDB[k]) ~= type(v) then BuffWatchDB[k] = v end
     end
+    -- hiddenBuffs[spellName] = true means the user toggled that buff off.
+    if type(BuffWatchDB.hiddenBuffs) ~= "table" then BuffWatchDB.hiddenBuffs = {} end
 end
 
 local function RebuildKnownSpells()
     wipe(knownSpells)
     wipe(knownSlot)
+    local _, c = UnitClass("player"); playerClass = c
     local numTabs = GetNumSpellTabs()
     for t = 1, numTabs do
         local _, _, offset, count = GetSpellTabInfo(t)
@@ -248,12 +278,14 @@ local function InitButtons()
             btn:SetSize(ICON_SIZE, ICON_SIZE)
             btn:RegisterForClicks("LeftButtonUp", "RightButtonUp")
             if entry.weapon then
-                -- /use <slot> applies the imbue/poison to a hand with no
-                -- targeting cursor: left = main hand (16), right = off hand (17).
+                -- Shaman imbues are cast spells; rogue poisons are consumable
+                -- items. Either way we finish with "/use <slot>" to apply to a
+                -- hand: left = main hand (16), right = off hand (17).
+                local verb = entry.prefix and "/use " or "/cast "
                 btn:SetAttribute("type1", "macro")
-                btn:SetAttribute("macrotext1", "/cast " .. entry.spell .. "\n/use 16")
+                btn:SetAttribute("macrotext1", verb .. entry.spell .. "\n/use 16")
                 btn:SetAttribute("type2", "macro")
-                btn:SetAttribute("macrotext2", "/cast " .. entry.spell .. "\n/use 17")
+                btn:SetAttribute("macrotext2", verb .. entry.spell .. "\n/use 17")
             else
                 btn:SetAttribute("type1", "spell")
                 btn:SetAttribute("spell1", entry.spell)
@@ -344,8 +376,28 @@ local function LayoutButtons()
     for i, entry in ipairs(TRACKED) do
         local btn  = allButtons[i]
         local icon = knownSpells[entry.spell]
+        -- Poisons are consumable items, not spellbook spells, so the
+        -- spellbook scan never finds them. Show them for Rogues and take
+        -- the icon from the spell database by ID.
+        if entry.prefix then
+            if playerClass == "ROGUE" and entry.id then
+                icon = select(3, GetSpellInfo(entry.id))
+            else
+                icon = nil
+            end
+        end
+        -- Temporarily disabled classes (e.g. Rogue poisons) are hidden.
+        if entry.class and DISABLED_CLASSES[entry.class] then
+            icon = nil
+        end
         -- Hide a base spell when its upgrade is also learned.
         if entry.upgradedBy and knownSpells[entry.upgradedBy] then
+            icon = nil
+        end
+        -- Respect the user's per-buff visibility toggle from the config panel.
+        -- Paired buffs (e.g. Seal of Vengeance/Corruption) share a toggle key.
+        if BuffWatchDB.hiddenBuffs
+            and BuffWatchDB.hiddenBuffs[entry.toggleKey or entry.spell] then
             icon = nil
         end
         if icon then
@@ -488,10 +540,15 @@ end)
 
 local configPanel
 
+local GOLD = { 1, 0.82, 0 }
+
 local function BuildConfigPanel()
     if configPanel then return end
 
-    local PW, PH = 260, 224
+    local PW, PH      = 440, 420
+    local SIDEBAR_W   = 120  -- left category column width
+    local CONTENT_X   = SIDEBAR_W + 10
+    local CONTENT_TOP = -44
 
     configPanel = CreateFrame("Frame", "BuffWatchConfigFrame", UIParent)
     configPanel:SetSize(PW, PH)
@@ -513,32 +570,64 @@ local function BuildConfigPanel()
     title:SetPoint("TOP", 0, -12)
     title:SetFont("Fonts\\FRIZQT__.TTF", 14, "OUTLINE")
     title:SetText("BuffWatch")
-    title:SetTextColor(1, 0.82, 0, 1)
+    title:SetTextColor(GOLD[1], GOLD[2], GOLD[3], 1)
 
     local closeBtn = CreateFrame("Button", nil, configPanel, "UIPanelCloseButton")
     closeBtn:SetPoint("TOPRIGHT", -4, -4)
 
+    -- Horizontal rule under the title.
     local sep = configPanel:CreateTexture(nil, "ARTWORK")
     sep:SetTexture("Interface\\Buttons\\WHITE8X8")
-    sep:SetVertexColor(1, 0.82, 0, 0.25)
+    sep:SetVertexColor(GOLD[1], GOLD[2], GOLD[3], 0.25)
     sep:SetHeight(1)
     sep:SetPoint("TOPLEFT",  configPanel, "TOPLEFT",  14, -36)
     sep:SetPoint("TOPRIGHT", configPanel, "TOPRIGHT", -14, -36)
 
-    local SW = PW - 36
+    -- Vertical rule dividing the sidebar from the content area.
+    local vsep = configPanel:CreateTexture(nil, "ARTWORK")
+    vsep:SetTexture("Interface\\Buttons\\WHITE8X8")
+    vsep:SetVertexColor(GOLD[1], GOLD[2], GOLD[3], 0.25)
+    vsep:SetWidth(1)
+    vsep:SetPoint("TOPLEFT",    configPanel, "TOPLEFT",    SIDEBAR_W, -40)
+    vsep:SetPoint("BOTTOMLEFT", configPanel, "BOTTOMLEFT", SIDEBAR_W,  12)
+
+    --------------------------------------------------------------------------
+    -- Right-side content containers (only one shown at a time).
+    --------------------------------------------------------------------------
+    local function MakeContainer()
+        local c = CreateFrame("Frame", nil, configPanel)
+        c:SetPoint("TOPLEFT",     configPanel, "TOPLEFT",     CONTENT_X, CONTENT_TOP)
+        c:SetPoint("BOTTOMRIGHT", configPanel, "BOTTOMRIGHT", -12, 12)
+        return c
+    end
+
+    local configContainer = MakeContainer()
+    local buffContainer   = MakeContainer()
+    buffContainer:Hide()
+
+    --------------------------------------------------------------------------
+    -- Configuration view: display settings (scale, opacity, lock, layout).
+    --------------------------------------------------------------------------
+    local cfgHeader = configContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    cfgHeader:SetPoint("TOPLEFT", 0, -2)
+    cfgHeader:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
+    cfgHeader:SetTextColor(GOLD[1], GOLD[2], GOLD[3], 1)
+    cfgHeader:SetText("Display Settings")
+
+    local SW = PW - CONTENT_X - 24
 
     local function MakeSlider(yTop, initLabel, minV, maxV, step, loText, hiText, onChange)
-        local lbl = configPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        lbl:SetPoint("TOPLEFT", 18, yTop)
+        local lbl = configContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        lbl:SetPoint("TOPLEFT", 0, yTop)
         lbl:SetFont("Fonts\\FRIZQT__.TTF", 11, "")
-        lbl:SetTextColor(1, 0.82, 0, 1)
+        lbl:SetTextColor(GOLD[1], GOLD[2], GOLD[3], 1)
         lbl:SetText(initLabel)
 
-        local sl = CreateFrame("Slider", nil, configPanel)
+        local sl = CreateFrame("Slider", nil, configContainer)
         sl:SetOrientation("HORIZONTAL")
         sl:SetHeight(16)
         sl:SetWidth(SW)
-        sl:SetPoint("TOPLEFT", 18, yTop - 18)
+        sl:SetPoint("TOPLEFT", 0, yTop - 18)
         sl:SetMinMaxValues(minV, maxV)
         sl:SetValueStep(step)
 
@@ -553,12 +642,12 @@ local function BuildConfigPanel()
         thumb:SetSize(32, 18)
         sl:SetThumbTexture(thumb)
 
-        local loFs = configPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        local loFs = configContainer:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
         loFs:SetPoint("TOPLEFT", sl, "BOTTOMLEFT", 0, -2)
         loFs:SetText(loText)
         loFs:SetTextColor(0.6, 0.6, 0.6, 1)
 
-        local hiFs = configPanel:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        local hiFs = configContainer:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
         hiFs:SetPoint("TOPRIGHT", sl, "BOTTOMRIGHT", 0, -2)
         hiFs:SetText(hiText)
         hiFs:SetTextColor(0.6, 0.6, 0.6, 1)
@@ -571,7 +660,7 @@ local function BuildConfigPanel()
         return sl
     end
 
-    configPanel.scaleSlider = MakeSlider(-50, "Scale: 1.00x", 0.5, 2.0, 0.05,
+    configPanel.scaleSlider = MakeSlider(-34, "Scale: 1.00x", 0.5, 2.0, 0.05,
         "0.5x", "2.0x",
         function(v, lbl)
             EnsureDB()
@@ -580,7 +669,7 @@ local function BuildConfigPanel()
             lbl:SetText(string.format("Scale: %.2fx", v))
         end)
 
-    configPanel.opSlider = MakeSlider(-106, "Opacity: 85%", 0, 100, 1,
+    configPanel.opSlider = MakeSlider(-90, "Opacity: 85%", 0, 100, 1,
         "0%", "100%",
         function(v, lbl)
             EnsureDB()
@@ -589,9 +678,9 @@ local function BuildConfigPanel()
             lbl:SetText(string.format("Opacity: %d%%", v))
         end)
 
-    local lockCB = CreateFrame("CheckButton", "BuffWatchLockCB", configPanel,
+    local lockCB = CreateFrame("CheckButton", "BuffWatchLockCB", configContainer,
         "UICheckButtonTemplate")
-    lockCB:SetPoint("TOPLEFT", 14, -158)
+    lockCB:SetPoint("TOPLEFT", 0, -142)
     lockCB:SetSize(24, 24)
     local lockLbl = lockCB:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     lockLbl:SetPoint("LEFT", lockCB, "RIGHT", 4, 0)
@@ -603,9 +692,9 @@ local function BuildConfigPanel()
     end)
     configPanel.lockCB = lockCB
 
-    local vertCB = CreateFrame("CheckButton", "BuffWatchVertCB", configPanel,
+    local vertCB = CreateFrame("CheckButton", "BuffWatchVertCB", configContainer,
         "UICheckButtonTemplate")
-    vertCB:SetPoint("TOPLEFT", 14, -186)
+    vertCB:SetPoint("TOPLEFT", 0, -170)
     vertCB:SetSize(24, 24)
     local vertLbl = vertCB:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     vertLbl:SetPoint("LEFT", vertCB, "RIGHT", 4, 0)
@@ -618,6 +707,146 @@ local function BuildConfigPanel()
         RefreshStates()
     end)
     configPanel.vertCB = vertCB
+
+    --------------------------------------------------------------------------
+    -- Buff view: per-class list of toggleable buffs.
+    --------------------------------------------------------------------------
+    local buffHeader = buffContainer:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    buffHeader:SetPoint("TOPLEFT", 0, -2)
+    buffHeader:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
+    buffHeader:SetTextColor(GOLD[1], GOLD[2], GOLD[3], 1)
+
+    local buffHint = buffContainer:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    buffHint:SetPoint("TOPLEFT", 0, -20)
+    buffHint:SetText("Checked buffs are shown on the bar.")
+    buffHint:SetTextColor(0.6, 0.6, 0.6, 1)
+
+    local ROW_TOP, ROW_H = -38, 24
+    buffContainer.rows = {}
+
+    local function GetRow(i)
+        local r = buffContainer.rows[i]
+        if not r then
+            r = CreateFrame("CheckButton", "BuffWatchBuffRow" .. i, buffContainer,
+                "UICheckButtonTemplate")
+            r:SetSize(22, 22)
+            r:SetPoint("TOPLEFT", buffContainer, "TOPLEFT", 0, ROW_TOP - (i - 1) * ROW_H)
+            r.icon = r:CreateTexture(nil, "ARTWORK")
+            r.icon:SetSize(18, 18)
+            r.icon:SetPoint("LEFT", r, "RIGHT", 2, 0)
+            r.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+            r.label = r:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+            r.label:SetPoint("LEFT", r.icon, "RIGHT", 5, 0)
+            r.label:SetFont("Fonts\\FRIZQT__.TTF", 11, "")
+            r:SetScript("OnClick", function(self)
+                EnsureDB()
+                if self:GetChecked() then
+                    BuffWatchDB.hiddenBuffs[self._toggleKey] = nil
+                else
+                    BuffWatchDB.hiddenBuffs[self._toggleKey] = true
+                end
+                LayoutButtons()
+                RefreshStates()
+            end)
+            buffContainer.rows[i] = r
+        end
+        return r
+    end
+
+    local function PopulateBuffs(class)
+        EnsureDB()
+        buffHeader:SetText(class)
+        local list = CLASS_BUFFS[class] or {}
+        local seen, n = {}, 0
+        for _, entry in ipairs(list) do
+            local key = entry.toggleKey or entry.spell
+            if not seen[key] then
+                seen[key] = true
+                n = n + 1
+                local r = GetRow(n)
+                r._toggleKey = key
+                r.label:SetText(entry.toggleLabel or entry.spell)
+                -- Prefer a known member's icon (the player's own faction seal);
+                -- otherwise resolve by spell ID.
+                local icon
+                for _, e2 in ipairs(list) do
+                    if (e2.toggleKey or e2.spell) == key and knownSpells[e2.spell] then
+                        icon = knownSpells[e2.spell]
+                        break
+                    end
+                end
+                icon = icon or (entry.id and select(3, GetSpellInfo(entry.id)))
+                    or "Interface\\Icons\\INV_Misc_QuestionMark"
+                r.icon:SetTexture(icon)
+                r:SetChecked(not BuffWatchDB.hiddenBuffs[key])
+                r:Show()
+            end
+        end
+        for i = n + 1, #buffContainer.rows do
+            buffContainer.rows[i]:Hide()
+        end
+    end
+
+    --------------------------------------------------------------------------
+    -- Left sidebar: "Configuration" then each class alphabetically.
+    --------------------------------------------------------------------------
+    configPanel.catButtons = {}
+
+    local function SelectCategory(name)
+        for n, b in pairs(configPanel.catButtons) do
+            if n == name then
+                b.sel:Show()
+                b.label:SetTextColor(GOLD[1], GOLD[2], GOLD[3], 1)
+            else
+                b.sel:Hide()
+                b.label:SetTextColor(0.85, 0.85, 0.85, 1)
+            end
+        end
+        if name == "Configuration" then
+            buffContainer:Hide()
+            configContainer:Show()
+        else
+            configContainer:Hide()
+            PopulateBuffs(name)
+            buffContainer:Show()
+        end
+    end
+    configPanel.SelectCategory = SelectCategory
+
+    local categories = { "Configuration" }
+    for _, c in ipairs(CLASS_ORDER) do
+        if not DISABLED_CLASSES[c] then categories[#categories + 1] = c end
+    end
+
+    local cy = -42
+    for _, name in ipairs(categories) do
+        local b = CreateFrame("Button", nil, configPanel)
+        b:SetSize(SIDEBAR_W - 16, 22)
+        b:SetPoint("TOPLEFT", configPanel, "TOPLEFT", 10, cy)
+
+        local selTex = b:CreateTexture(nil, "BACKGROUND")
+        selTex:SetTexture("Interface\\Buttons\\WHITE8X8")
+        selTex:SetVertexColor(GOLD[1], GOLD[2], GOLD[3], 0.18)
+        selTex:SetAllPoints()
+        selTex:Hide()
+        b.sel = selTex
+
+        local hl = b:CreateTexture(nil, "HIGHLIGHT")
+        hl:SetTexture("Interface\\Buttons\\WHITE8X8")
+        hl:SetVertexColor(1, 1, 1, 0.10)
+        hl:SetAllPoints()
+
+        local fs = b:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        fs:SetPoint("LEFT", 4, 0)
+        fs:SetFont("Fonts\\FRIZQT__.TTF", 11, "")
+        fs:SetText(name)
+        fs:SetTextColor(0.85, 0.85, 0.85, 1)
+        b.label = fs
+
+        b:SetScript("OnClick", function() SelectCategory(name) end)
+        configPanel.catButtons[name] = b
+        cy = cy - 24
+    end
 
     tinsert(UISpecialFrames, "BuffWatchConfigFrame")
 end
@@ -634,6 +863,7 @@ OpenConfig = function()
         math.floor((BuffWatchDB.opacity or 0.85) * 100 + 0.5))
     configPanel.lockCB:SetChecked(BuffWatchDB.locked and 1 or nil)
     configPanel.vertCB:SetChecked(BuffWatchDB.vertical and 1 or nil)
+    configPanel.SelectCategory("Configuration")
     configPanel:Show()
 end
 

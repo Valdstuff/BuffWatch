@@ -6,13 +6,14 @@ BuffWatch shows a compact row (or column) of icons for the buffs your class can 
 
 ## Features
 
-- Tracks class self-buffs (Fortitude, armors, shields, seals, presences, Mark of the Wild, and more) and only shows the ones you actually know.
-- Tracks weapon imbues and rogue poisons (Windfury, Flametongue, Instant Poison, etc.) by reading the weapon tooltip directly, which is reliable on custom servers.
+- Tracks class self-buffs — Power Word: Fortitude, mage/warlock armors, shields, paladin seals and blessings, death knight presences, hunter aspects, Mark of the Wild, and more — and only shows the ones you actually know.
+- Tracks shaman weapon imbues (Windfury, Flametongue, Rockbiter, etc.) by reading the weapon tooltip directly, which is reliable on custom servers.
 - Missing buffs glow; active buffs dim and show a colour-coded countdown (white → yellow under a minute → red under 10 seconds). Permanent buffs show an infinity symbol.
 - **Click to cast** via a secure button: left-click casts the spell; for weapon imbues, left-click applies to the main hand and right-click to the off hand.
-- Grouped buffs (seals, Death Knight presences) count as satisfied when any one in the group is active.
+- Grouped buffs (paladin seals, death knight presences, hunter aspects) count as satisfied when any one in the group is active.
 - Automatically hides a base spell once you learn its upgrade (e.g. Demon Skin → Demon Armor, Frost Armor → Ice Armor).
 - Movable, lockable frame with adjustable scale and opacity, and horizontal or vertical layout.
+- **Per-class configuration:** `/bw config` opens a panel with a class list down the left; select a class to show its buffs on the right and toggle any of them on or off. Faction seal pairs (Vengeance/Corruption, Martyr/Blood) share a single toggle.
 
 ## Screenshots
 
@@ -24,9 +25,9 @@ BuffWatch shows a compact row (or column) of icons for the buffs your class can 
 
 ![Buffs applied](https://github.com/user-attachments/assets/7c6ae75c-08be-496b-94ff-7e2ff5458757)
 
-**Config panel:**
+**Config panel** — pick a class on the left, toggle its buffs on the right:
 
-![Config](https://github.com/user-attachments/assets/a174a0eb-df34-4305-a189-2c2115b1d2f1)
+![Config](https://github.com/user-attachments/assets/27d822b8-f01c-414e-8870-093cc1c3a9ca)
 
 ## Installation
 
@@ -40,13 +41,13 @@ BuffWatch shows a compact row (or column) of icons for the buffs your class can 
 | Command | Action |
 | --- | --- |
 | `/bw` or `/buffwatch` | Show / hide the BuffWatch frame |
-| `/bw config` | Open the configuration panel (lock, scale, opacity, orientation) |
+| `/bw config` | Open the config panel — display settings plus per-class buff visibility |
 
 Drag the frame to move it (when unlocked). Settings are saved per account in `BuffWatchDB`.
 
 ## Author
 
-Valdstein - AI was used in the creation of this addon
+Valdstein
 
 ## License
 
