@@ -57,8 +57,8 @@ local TRACKED = {
     { spell = "Frost Presence", id = 48266,  group = "presence", class = "Death Knight" },
     { spell = "Unholy Presence", id = 48265, group = "presence", class = "Death Knight" },
     { spell = "Horn of Winter", id = 57330, class = "Death Knight" },
-    { spell = "Battle Shout", id = 6673, class = "Warrior" },
-    { spell = "Commanding Shout", id = 469, class = "Warrior" },
+    { spell = "Battle Shout", id = 6673, class = "Warrior", rageCost = 10 },
+    { spell = "Commanding Shout", id = 469, class = "Warrior", rageCost = 10 },
     { spell = "Windfury Weapon", id = 8232,     weapon = true, class = "Shaman" },
     { spell = "Frostbrand Weapon", id = 8033,   weapon = true, class = "Shaman" },
     { spell = "Flametongue Weapon", id = 8024,  weapon = true, class = "Shaman" },
@@ -102,6 +102,7 @@ local allButtons  = {}
 local playerClass        -- englishClass token, e.g. "ROGUE"; set in RebuildKnownSpells
 local alertMissing = {}  -- entries currently missing, for the centre alert
 local alertIndex   = 0   -- which missing buff the alert is currently showing
+local alertShown   = {}  -- filtered display list (after the rage gate)
 
 local weaponEnchant = { main = "", off = "" }
 local haveWeaponEntries = false
@@ -118,6 +119,8 @@ local function EnsureDB()
     end
     -- hiddenBuffs[spellName] = true means the user toggled that buff off.
     if type(BuffWatchDB.hiddenBuffs) ~= "table" then BuffWatchDB.hiddenBuffs = {} end
+    -- alertRageGate[spell] = true -> only flash that buff when enough rage.
+    if type(BuffWatchDB.alertRageGate) ~= "table" then BuffWatchDB.alertRageGate = {} end
     -- Orientation/grow (migrate the old `vertical` boolean if present).
     if type(BuffWatchDB.orientation) ~= "string" then
         BuffWatchDB.orientation = (BuffWatchDB.vertical and "vertical") or "horizontal"
@@ -605,7 +608,30 @@ local function AlertModeAllows()
     return true
 end
 
-local alertPulseT, alertCycleT = 0, 0
+local alertPulseT, alertCycleT, alertGateT = 0, 0, 0
+
+-- Some buffs (Battle Shout) cost rage; gate the alert so it doesn't flash when
+-- the player can't afford the cast. Compares rage as a percent of max so it is
+-- agnostic to the 0-100 vs 0-1000 rage scale.
+local rageReadySince = {}
+
+-- True only after the player has held >= the buff's rage cost continuously for
+-- 1.5s, so the alert doesn't flash on a brief rage spike.
+local function HasEnoughRage(entry)
+    local cost = entry.rageCost
+    if not cost then return true end
+    local maxR = (UnitManaMax and UnitManaMax("player")) or 0
+    if maxR <= 0 then return true end
+    local cur = (UnitMana and UnitMana("player")) or 0
+    local enough = (cur / maxR) * 100 >= cost
+    local now = GetTime()
+    if enough then
+        if not rageReadySince[cost] then rageReadySince[cost] = now end
+        return (now - rageReadySince[cost]) >= 1.5
+    end
+    rageReadySince[cost] = nil
+    return false
+end
 
 local function BuildAlertFrame()
     if alertFrame then return end
@@ -651,7 +677,13 @@ local function BuildAlertFrame()
         local sc = 1.0 + 0.10 * p
         self.icon:SetSize(56 * sc, 56 * sc)
         self.glow:SetSize(120 * sc, 120 * sc)
-        if #alertMissing > 1 then
+        -- Re-evaluate the rage gate / visibility a few times a second.
+        alertGateT = alertGateT + elapsed
+        if alertGateT >= 0.3 then
+            alertGateT = 0
+            RefreshAlert()
+        end
+        if #alertShown > 1 then
             alertCycleT = alertCycleT + elapsed
             if alertCycleT >= 1.0 then
                 alertCycleT = 0
@@ -667,12 +699,19 @@ end
 RefreshAlert = function()
     if not alertFrame then return end
     EnsureDB()
-    if (not BuffWatchDB.alertEnabled) or #alertMissing == 0 or (not AlertModeAllows()) then
+    -- Display list = missing buffs minus any rage-gated buff we can't afford.
+    wipe(alertShown)
+    for _, e in ipairs(alertMissing) do
+        local gated = e.rageCost and BuffWatchDB.alertRageGate[e.spell]
+            and not HasEnoughRage(e)
+        if not gated then alertShown[#alertShown + 1] = e end
+    end
+    if (not BuffWatchDB.alertEnabled) or #alertShown == 0 or (not AlertModeAllows()) then
         alertFrame:Hide()
         return
     end
-    if alertIndex < 1 or alertIndex > #alertMissing then alertIndex = 1 end
-    local entry = alertMissing[alertIndex]
+    if alertIndex < 1 or alertIndex > #alertShown then alertIndex = 1 end
+    local entry = alertShown[alertIndex]
     local icon = knownSpells[entry.spell]
         or (entry.id and select(3, GetSpellInfo(entry.id)))
         or "Interface\\Icons\\INV_Misc_QuestionMark"
@@ -680,6 +719,18 @@ RefreshAlert = function()
     alertFrame.label:SetText(entry.spell)
     alertFrame:Show()
 end
+
+-- A small always-running ticker so the rage gate / centre alert keeps
+-- re-evaluating even while the alert frame itself is hidden.
+local alertTicker = CreateFrame("Frame", nil, UIParent)
+local alertTickerT = 0
+alertTicker:SetScript("OnUpdate", function(self, elapsed)
+    alertTickerT = alertTickerT + elapsed
+    if alertTickerT >= 0.2 then
+        alertTickerT = 0
+        if RefreshAlert then RefreshAlert() end
+    end
+end)
 
 -- Weapon imbues/poisons do not fire UNIT_AURA, so re-scan on a light throttle.
 local pulseT, scanT, timerT = 0, 0, 0
@@ -1100,13 +1151,22 @@ local function BuildConfigPanel()
             r.label:SetFont("Fonts\\FRIZQT__.TTF", 11, "")
             r:SetScript("OnClick", function(self)
                 EnsureDB()
-                if self:GetChecked() then
-                    BuffWatchDB.hiddenBuffs[self._toggleKey] = nil
+                if self._kind == "rage" then
+                    if self:GetChecked() then
+                        BuffWatchDB.alertRageGate[self._spell] = true
+                    else
+                        BuffWatchDB.alertRageGate[self._spell] = nil
+                    end
+                    if RefreshAlert then RefreshAlert() end
                 else
-                    BuffWatchDB.hiddenBuffs[self._toggleKey] = true
+                    if self:GetChecked() then
+                        BuffWatchDB.hiddenBuffs[self._toggleKey] = nil
+                    else
+                        BuffWatchDB.hiddenBuffs[self._toggleKey] = true
+                    end
+                    LayoutButtons()
+                    RefreshStates()
                 end
-                LayoutButtons()
-                RefreshStates()
             end)
             buffContainer.rows[i] = r
         end
@@ -1124,7 +1184,13 @@ local function BuildConfigPanel()
                 seen[key] = true
                 n = n + 1
                 local r = GetRow(n)
+                r._kind = "buff"
                 r._toggleKey = key
+                r:ClearAllPoints()
+                r:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 0, -(n - 1) * ROW_H)
+                r.icon:Show()
+                r.label:ClearAllPoints()
+                r.label:SetPoint("LEFT", r.icon, "RIGHT", 5, 0)
                 r.label:SetText(entry.toggleLabel or entry.spell)
                 -- Prefer a known member's icon (the player's own faction seal);
                 -- otherwise resolve by spell ID.
@@ -1140,6 +1206,23 @@ local function BuildConfigPanel()
                 r.icon:SetTexture(icon)
                 r:SetChecked(not BuffWatchDB.hiddenBuffs[key])
                 r:Show()
+
+                -- Rage-gated buffs (e.g. Battle Shout) get an indented
+                -- "only when enough rage" alert sub-option.
+                if entry.rageCost then
+                    n = n + 1
+                    local sr = GetRow(n)
+                    sr._kind = "rage"
+                    sr._spell = entry.spell
+                    sr:ClearAllPoints()
+                    sr:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 22, -(n - 1) * ROW_H)
+                    sr.icon:Hide()
+                    sr.label:ClearAllPoints()
+                    sr.label:SetPoint("LEFT", sr, "RIGHT", 5, 0)
+                    sr.label:SetText("Center Alert: Only when enough rage")
+                    sr:SetChecked(BuffWatchDB.alertRageGate[entry.spell] and true or false)
+                    sr:Show()
+                end
             end
         end
         for i = n + 1, #buffContainer.rows do
