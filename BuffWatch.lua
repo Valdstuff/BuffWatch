@@ -614,16 +614,23 @@ local alertPulseT, alertCycleT, alertGateT = 0, 0, 0
 -- the player can't afford the cast. Compares rage as a percent of max so it is
 -- agnostic to the 0-100 vs 0-1000 rage scale.
 local rageReadySince = {}
+local RAGE_POWER = SPELL_POWER_RAGE or 1  -- rage power index
 
 -- True only after the player has held >= the buff's rage cost continuously for
--- 1.5s, so the alert doesn't flash on a brief rage spike.
+-- 1.5s, so the alert doesn't flash on a brief rage spike. Reads the RAGE power
+-- explicitly: UnitMana returns the *primary* power, which on classless servers
+-- can be mana, not rage.
 local function HasEnoughRage(entry)
     local cost = entry.rageCost
     if not cost then return true end
-    local maxR = (UnitManaMax and UnitManaMax("player")) or 0
-    if maxR <= 0 then return true end
-    local cur = (UnitMana and UnitMana("player")) or 0
-    local enough = (cur / maxR) * 100 >= cost
+    local cur  = (UnitPower and UnitPower("player", RAGE_POWER)) or 0
+    local maxR = (UnitPowerMax and UnitPowerMax("player", RAGE_POWER)) or 0
+    local enough
+    if maxR > 0 then
+        enough = (cur / maxR) * 100 >= cost   -- percent: scale-agnostic
+    else
+        enough = cur >= cost                  -- fall back to raw rage value
+    end
     local now = GetTime()
     if enough then
         if not rageReadySince[cost] then rageReadySince[cost] = now end
